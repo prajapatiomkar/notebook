@@ -65,11 +65,11 @@ passport.use(
 passport.serializeUser((user, done) => {
   console.log("serializeUser");
   console.log(user);
-  return done(null, user);
+  return done(null, { _id: user._id, role: user.role });
 });
 
-passport.deserializeUser(async (user, done) => {
-  const existingUser = await userModel.findOne({ email: user.email });
+passport.deserializeUser(async (_id, done) => {
+  const existingUser = await userModel.findById(_id);
 
   if (existingUser) {
     return done(null, existingUser);

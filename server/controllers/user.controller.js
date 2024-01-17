@@ -1,11 +1,10 @@
-import passport from "passport";
 import userModel from "../models/user.model.js";
 
 const root = async (req, res, next) => {
   try {
     const user = await userModel
       .findById(req.user._id)
-      .select("-password")
+      .select("-password -createdAt -updatedAt")
       .exec();
     res.status(200).json(user);
   } catch (error) {
